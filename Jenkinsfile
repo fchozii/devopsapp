@@ -15,6 +15,11 @@ pipeline {
         // Jenkins credential id to authenticate to Nexus OSS
         NEXUS_CREDENTIAL_ID = "NEXUS_CRED"
     }
+    // parameters {
+    //     credentials(
+    //         credentialType: 'com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl'
+    //     )
+    // }
     stages {
         // stage('Check Env') {
         //     steps {
@@ -43,6 +48,9 @@ pipeline {
             }
         }
         stage('Publish') {
+            // environment {
+            //     NEXUS_CREDENTIAL_ID =  
+            // }
             steps {
                 script {
                     // Read POM xml file using 'readMavenPom' step , this step 'readMavenPom' is included in: https://plugins.jenkins.io/pipeline-utility-steps
