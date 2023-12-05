@@ -13,7 +13,7 @@ pipeline {
         // Repository where we will upload the artifact
         NEXUS_REPOSITORY = "devopsapp"
         // Jenkins credential id to authenticate to Nexus OSS
-        NEXUS_CREDENTIAL_ID = "NEXUS_CRED"
+        // NEXUS_CREDENTIAL_ID = "NEXUS_CRED"
     }
     stages {
         // stage('Check Env') {
@@ -43,6 +43,9 @@ pipeline {
             }
         }
         stage('Publish') {
+            environment {
+                NEXUS_CREDENTIAL_ID = credentials("NXS_VNDR")
+            }
             steps {
                 script {
                     // Read POM xml file using 'readMavenPom' step , this step 'readMavenPom' is included in: https://plugins.jenkins.io/pipeline-utility-steps
