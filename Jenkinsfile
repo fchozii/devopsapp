@@ -1,5 +1,12 @@
 pipeline {
-    agent any
+    agent {
+        node {
+            label 'Built-In Node'
+        }
+    }
+    tools {
+        jdk 'openjdk-11.0.21.0.9-2'
+    }
     stages {
         stage('Check Env') {
             steps {
