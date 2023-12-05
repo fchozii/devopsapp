@@ -22,7 +22,7 @@ pipeline {
                 '''
             }
         }
-        stage('Test') {
+        stage('Package') {
             steps {
                 sh '''
                     ./mvnw package -DskipTests \
