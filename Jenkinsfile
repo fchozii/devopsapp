@@ -5,32 +5,17 @@ pipeline {
     }
     environment {
         // This can be nexus3 or nexus2
-        NEXUS_VERSION = "nexus3"
+        NEXUS_VERSION = 'nexus3'
         // This can be http or https
-        NEXUS_PROTOCOL = "http"
+        NEXUS_PROTOCOL = 'http'
         // Where your Nexus is running. 'nexus-3' is defined in the docker-compose file
-        NEXUS_URL = "192.168.56.7:8081"
+        NEXUS_URL = '192.168.56.7:8081'
         // Repository where we will upload the artifact
-        NEXUS_REPOSITORY = "devopsapp"
+        NEXUS_REPOSITORY = 'devopsapp'
         // Jenkins credential id to authenticate to Nexus OSS
-        NEXUS_CREDENTIAL_ID = "NEXUS_CRED"
+        NEXUS_CREDENTIAL_ID = credentials('NEXUS_CRED')
     }
-    // parameters {
-    //     credentials(
-    //         credentialType: 'com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl'
-    //     )
-    // }
     stages {
-        // stage('Check Env') {
-        //     steps {
-        //         sh '''
-        //             env | grep -e PATH -e JAVA_HOME
-        //             which java
-        //             java -version
-        //         '''
-        //     }
-            
-        // }
         stage('Test') {
             steps {
                 sh 'chmod +x mvnw'
@@ -48,9 +33,6 @@ pipeline {
             }
         }
         stage('Publish') {
-            // environment {
-            //     NEXUS_CREDENTIAL_ID =  
-            // }
             steps {
                 script {
                     // Read POM xml file using 'readMavenPom' step , this step 'readMavenPom' is included in: https://plugins.jenkins.io/pipeline-utility-steps
