@@ -1,12 +1,22 @@
 pipeline {
     agent any
     stages {
-        stage('Test') {
+        stage('Check Env') {
             steps {
                 sh '''
-                    ./mvnw clean test
+                    env | grep -e PATH -e JAVA_HOME
+                    which java
+                    java-version
                 '''
             }
+            
         }
+        // stage('Test') {
+        //     steps {
+        //         sh '''
+        //             ./mvnw clean test
+        //         '''
+        //     }
+        // }
     }
 }
