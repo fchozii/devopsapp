@@ -6,7 +6,7 @@ pipeline {
                 sh '''
                     env | grep -e PATH -e JAVA_HOME
                     which java
-                    java-version
+                    java -version
                 '''
             }
             
