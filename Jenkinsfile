@@ -44,7 +44,7 @@ pipeline {
         }
         stage('Publish') {
             environment {
-                NEXUS_CREDENTIAL_ID = credentials("NXS_VNDR")
+                NEXUS_CREDENTIAL_ID = credentials('NXS_VNDR')
             }
             steps {
                 script {
