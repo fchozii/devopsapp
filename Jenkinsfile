@@ -22,5 +22,13 @@ pipeline {
                 '''
             }
         }
+        stage('Test') {
+            steps {
+                sh '''
+                    ./mvnw package -DskipTests \
+                    -Dquarkus.package.type=uber-jar
+                '''
+            }
+        }
     }
 }
