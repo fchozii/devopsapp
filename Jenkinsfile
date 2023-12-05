@@ -1,9 +1,5 @@
 pipeline {
-    agent {
-        node {
-            label 'Built-In Node'
-        }
-    }
+    agent any
     tools {
         jdk 'openjdk-11.0.21.0.9-2'
     }
