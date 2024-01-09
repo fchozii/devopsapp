@@ -19,16 +19,15 @@ pipeline {
     stages {
         stage('Test') {
             steps {
-                sh 'chmod +x mvnw'
                 sh '''
-                    ./mvnw clean test
+                    mvn clean test
                 '''
             }
         }
         stage('Package') {
             steps {
                 sh '''
-                    ./mvnw package -DskipTests \
+                    mvn package -DskipTests \
                     -Dquarkus.package.type=uber-jar
                 '''
             }
