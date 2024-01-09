@@ -2,6 +2,7 @@ pipeline {
     agent any
     tools {
         jdk 'openjdk-11.0.2'
+        maven 'maven-3.6.3'
     }
     environment {
         // This can be nexus3 or nexus2
