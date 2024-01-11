@@ -46,21 +46,28 @@ pipeline {
           }
           steps {
             withSonarQubeEnv('sonar-ce-9.9.3') {
-               sh '''
-                    ${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=devopsapp \
-                    -Dsonar.projectName=shopping-cart \
-                    -Dsonar.login=sqa_8c1d3a7a057e588f8a0b449dc132df2eec2fd13d \
-                    -Dsonar.projectVersion=1.0 \
-                    -Dsonar.sources=src/ \
-                    -Dsonar.java.binaries=target/classes/ \
-                    -Dsonar.junit.reportsPath=target/surefire-reports/
-                '''
-            }
-
-            timeout(time: 10, unit: 'MINUTES') {
-               waitForQualityGate abortPipeline: true
+               withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
+                sh '''
+                        ${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=devopsapp \
+                        -Dsonar.projectName=shopping-cart \
+                        -Dsonar.login=${SONAR_TOKEN} \
+                        -Dsonar.projectVersion=1.0 \
+                        -Dsonar.sources=src/ \
+                        -Dsonar.java.binaries=target/classes/ \
+                        -Dsonar.junit.reportsPath=target/surefire-reports/
+                    '''
+               }
             }
           }
+        }
+        stage("Quality Gate") {
+            steps {
+                timeout(time: 10, unit: 'MINUTES') {
+                    // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
+                    // true = set pipeline to UNSTABLE, false = don't
+                    waitForQualityGate abortPipeline: true
+                }
+            }
         }
         stage('Publish') {
             steps {
