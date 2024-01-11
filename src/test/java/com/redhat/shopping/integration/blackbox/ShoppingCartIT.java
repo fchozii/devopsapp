@@ -11,7 +11,7 @@ import static io.restassured.RestAssured.delete;
 import static io.restassured.RestAssured.given;
 
 @QuarkusTest
-public class ShoppingCartTest {
+public class ShoppingCartIT {
 
     private int randomQuantity() {
         return (new Random()).nextInt(10) + 1;

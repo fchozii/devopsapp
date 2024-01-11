@@ -17,17 +17,31 @@ pipeline {
         NEXUS_CREDENTIAL_ID = 'NEXUS_VDR02'
     }
     stages {
-        stage('Test') {
+        stage('Build') {
             steps {
                 sh '''
-                    mvn clean test
+                    mvn clean compile
+                '''
+            }
+        }
+        stage('Unit Test') {
+            steps {
+                sh '''
+                    mvn test
+                '''
+            }
+        }
+        stage('Integration Test') {
+            steps {
+                sh '''
+                    mvn verify -DskipUnitTests
                 '''
             }
         }
         stage('Package') {
             steps {
                 sh '''
-                    mvn package -DskipTests \
+                    mvn package -DskipTests -DskipUnitTests \
                     -Dquarkus.package.type=uber-jar
                 '''
             }
