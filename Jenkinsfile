@@ -51,7 +51,7 @@ pipeline {
                         ${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=devopsapp \
                         -Dsonar.projectName=shopping-cart \
                         -Dsonar.login=${SONAR_TOKEN} \
-                        -Dsonar.projectVersion=1.0 \
+                        -Dsonar.projectVersion=1.0-SNAPSHOT \
                         -Dsonar.sources=src/ \
                         -Dsonar.java.binaries=target/classes/ \
                         -Dsonar.junit.reportsPath=target/surefire-reports/
