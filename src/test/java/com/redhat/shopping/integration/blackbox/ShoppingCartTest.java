@@ -11,10 +11,12 @@ import static io.restassured.RestAssured.delete;
 import static io.restassured.RestAssured.given;
 
 @QuarkusTest
-public class ShoppingCartTest {
+class ShoppingCartTest {
+
+    private Random rand = new Random();
 
     private int randomQuantity() {
-        return (new Random()).nextInt(10) + 1;
+        return rand.nextInt(10) + 1;
     }
 
     private void addProductToTheCartWithIdAndRandomQuantity(int productId) {
@@ -35,7 +37,7 @@ public class ShoppingCartTest {
     }
 
     @Test
-    public void removingNonExistingProductInCatalogReturns400() {
+    void removingNonExistingProductInCatalogReturns400() {
         // Test implementation
         given()
             .pathParam("id", 9999)
@@ -46,7 +48,7 @@ public class ShoppingCartTest {
     }
 
     @Test
-    public void removingNonAddedProductToTheCartReturns404() {
+    void removingNonAddedProductToTheCartReturns404() {
         // Test implementation
         given()
             .pathParam("id", 1)
@@ -57,7 +59,7 @@ public class ShoppingCartTest {
     }
 
     @Test
-    public void removingTheOnlyProductInCartReturns204() {
+    void removingTheOnlyProductInCartReturns204() {
         // Setting the scenario to have the product with ID #1 already in the cart
         this.addProductToTheCartWithIdAndRandomQuantity(1);
 
@@ -71,7 +73,7 @@ public class ShoppingCartTest {
     }
 
     @Test
-    public void removingProductFromCartContainingMultipleAndDifferentProductsReturns200() {
+    void removingProductFromCartContainingMultipleAndDifferentProductsReturns200() {
         // Setting the scenario to have the products with IDs 1 and 2 already in the cart
         this.addProductToTheCartWithIdAndRandomQuantity(1);
         this.addProductToTheCartWithIdAndRandomQuantity(2);

@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @QuarkusTest
-public class ShoppingCartTest {
+class ShoppingCartTest {
 
     @Inject
     CartService cartService;
