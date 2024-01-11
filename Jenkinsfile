@@ -24,27 +24,44 @@ pipeline {
                 '''
             }
         }
-        stage('Unit Test') {
+        stage('Test') {
             steps {
                 sh '''
                     mvn test
                 '''
             }
         }
-        stage('Integration Test') {
-            steps {
-                sh '''
-                    mvn verify -DskipUnitTests
-                '''
-            }
-        }
         stage('Package') {
             steps {
                 sh '''
-                    mvn package -DskipTests -DskipUnitTests \
+                    mvn package -DskipTests \
                     -Dquarkus.package.type=uber-jar
                 '''
             }
+        }
+        stage('CODE ANALYSIS with SONARQUBE') {
+          
+		  environment {
+             scannerHome = tool 'sonar-scanner-5.0.1'
+          }
+          steps {
+            withSonarQubeEnv('sonar-ce-9.9.3') {
+               sh '''
+                    ${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=devopsapp \
+                    -Dsonar.projectName=shopping-cart \
+                    -Dsonar.projectVersion=1.0 \
+                    -Dsonar.sources=src/ \
+                    -Dsonar.java.binaries=target/classes/ \
+                    -Dsonar.junit.reportsPath=target/surefire-reports/
+                    // -Dsonar.jacoco.reportsPath=target/jacoco.exec \
+                    // -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml
+                '''
+            }
+
+            timeout(time: 10, unit: 'MINUTES') {
+               waitForQualityGate abortPipeline: true
+            }
+          }
         }
         stage('Publish') {
             steps {

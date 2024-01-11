@@ -81,7 +81,6 @@
             <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
             <maven.home>${maven.home}</maven.home>
           </systemPropertyVariables>
-          <skipTests>${skipUnitTests}</skipTests>
         </configuration>
       </plugin>
       <plugin>
@@ -101,7 +100,6 @@
             <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
             <maven.home>${maven.home}</maven.home>
           </systemPropertyVariables>
-          <!-- <skipITs>${skipIntegrationTests}</skipITs> -->
         </configuration>
       </plugin>
     </plugins>
