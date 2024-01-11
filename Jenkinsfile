@@ -48,7 +48,8 @@ pipeline {
             withSonarQubeEnv('sonar-ce-9.9.3') {
                sh '''
                     ${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=devopsapp \
-                    -Dsonar.projectName=shopping-cart \
+                    -Dsonar.projectName=shopping-cart
+                    -Dsonar.login=sqa_8c1d3a7a057e588f8a0b449dc132df2eec2fd13d \
                     -Dsonar.projectVersion=1.0 \
                     -Dsonar.sources=src/ \
                     -Dsonar.java.binaries=target/classes/ \
