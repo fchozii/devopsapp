@@ -43,10 +43,10 @@ pipeline {
           
 		  environment {
              scannerHome = tool 'sonar-scanner-4.8.1'
+             SONAR_TOKEN = credentials('SONAR_DEVOPSAPP')
           }
           steps {
             withSonarQubeEnv('sonar-ce-9.9.3') {
-               withCredentials([string(credentialsId: 'SONAR_DEVOPSAPP', variable: 'SONAR_TOKEN')]) {
                 sh '''
                         ${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=devopsapp \
                         -Dsonar.projectName=devopsapp \
@@ -56,7 +56,6 @@ pipeline {
                         -Dsonar.java.binaries=target/classes/ \
                         -Dsonar.junit.reportsPath=target/surefire-reports/
                     '''
-               }
             }
           }
         }
