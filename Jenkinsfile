@@ -46,10 +46,10 @@ pipeline {
           }
           steps {
             withSonarQubeEnv('sonar-ce-9.9.3') {
-               withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
+               withCredentials([string(credentialsId: 'SONAR_DEVOPSAPP', variable: 'SONAR_TOKEN')]) {
                 sh '''
                         ${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=devopsapp \
-                        -Dsonar.projectName=shopping-cart \
+                        -Dsonar.projectName=devopsapp \
                         -Dsonar.login=${SONAR_TOKEN} \
                         -Dsonar.projectVersion=1.0-SNAPSHOT \
                         -Dsonar.sources=src/ \
