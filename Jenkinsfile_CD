@@ -1,0 +1,34 @@
+pipeline {
+    agent any
+    parameters {
+        string (name: 'VERSION', defaultValue: '1.0-SNAPSHOT', description: 'Version application')
+        string (name: 'JAR_FILE_NAME', defaultValue: 'shopping-cart-1.0-20240113.054312-3.jar', description: 'Name of jar build')
+        string (name: 'VM_IP', defaultValue: '122.248.218.95', description: 'Target VM for deploy')
+    }
+    stages {
+        stage('Download JAR from Nexus Repository') {
+            environment {
+                NEXUS_CREDS = credentials('NEXUS_VDR02')
+                NEXUS_URL = 'https://192.168.56.3:8443'
+                NEXUS_REPO = 'devopsapp'
+            }
+            steps {
+                sh '''
+                   curl -u $NEXUS_CREDS_USR:$NEXUS_CREDS_PSW -k \
+                   -O $NEXUS_URL/repository/$NEXUS_REPO/com/redhat/shopping-cart/$VERSION/$JAR_FILE_NAME
+                '''
+            }
+        }
+        stage('Deploy via SCP Protocol') {
+            steps {
+                sshagent(['SSH_SERVER_APP']) {
+                    sh '''
+                        scp -o StrictHostKeyChecking=no \
+                        -o UserKnownHostsFile=/dev/null \
+                        ${JAR_FILE_NAME} nexus@${VM_IP}:~/
+                    '''
+                }
+            }
+        }
+    }
+}
